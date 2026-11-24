@@ -1,1 +1,222 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Enem Pro — Organização e Desempenho</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="star">✦</span>
+      <div>
+        <h1>Enem Pro</h1>
+        <p>Estude. Acompanhe. Conquiste sua vaga.</p>
+      </div>
+    </div>
+    <nav class="nav-tabs" aria-label="Seções do sistema">
+      <button type="button" class="nav-btn active" data-view="painel">Painel Principal</button>
+      <button type="button" class="nav-btn" data-view="organizar">Organizar Estudos</button>
+      <button type="button" class="nav-btn" data-view="registrar">Registrar Atividades</button>
+      <button type="button" class="nav-btn" data-view="acompanhar">Acompanhar Desempenho</button>
+    </nav>
+  </header>
 
+  <main class="container">
+    <!-- PAINEL PRINCIPAL -->
+    <section id="view-painel" class="view active">
+      <div class="section-head">
+        <h2>Olá, estudante!</h2>
+        <p>Resumo geral do teu progresso na preparação para o ENEM.</p>
+      </div>
+
+      <div class="cards-grid">
+        <article class="card metric-card">
+          <span class="metric-label">Disciplinas cadastradas</span>
+          <strong id="kpi-disciplinas" class="metric-value">0</strong>
+        </article>
+        <article class="card metric-card">
+          <span class="metric-label">Questões respondidas</span>
+          <strong id="kpi-questoes" class="metric-value">0</strong>
+        </article>
+        <article class="card metric-card">
+          <span class="metric-label">Percentual de acertos</span>
+          <strong id="kpi-aproveitamento" class="metric-value">0%</strong>
+        </article>
+      </div>
+
+      <div class="two-col">
+        <article class="card">
+          <h3>Desempenho por disciplina</h3>
+          <div id="painel-disciplinas" class="bar-list"></div>
+        </article>
+
+        <article class="card">
+          <h3>Conteúdos para reforço</h3>
+          <p class="muted">Assuntos com menor aproveitamento (abaixo de 70%).</p>
+          <ul id="painel-reforco" class="reinforce-list"></ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- ORGANIZAR ESTUDOS -->
+    <section id="view-organizar" class="view">
+      <div class="section-head">
+        <h2>Organizar Estudos</h2>
+        <p>Cadastre disciplinas e associe os assuntos que pretendes estudar.</p>
+      </div>
+
+      <div class="two-col">
+        <article class="card">
+          <h3>Nova disciplina</h3>
+          <form id="form-disciplina" class="form-stack">
+            <label for="input-disciplina">Nome da disciplina / área</label>
+            <input
+              id="input-disciplina"
+              type="text"
+              placeholder="Ex.: Matemática, Linguagens, Ciências da Natureza"
+              required
+            />
+            <button type="submit" class="btn primary">+ Cadastrar disciplina</button>
+          </form>
+        </article>
+
+        <article class="card">
+          <h3>Novo assunto</h3>
+          <form id="form-assunto" class="form-stack">
+            <label for="select-disciplina-assunto">Disciplina</label>
+            <select id="select-disciplina-assunto" required></select>
+
+            <label for="input-assunto">Assunto</label>
+            <input
+              id="input-assunto"
+              type="text"
+              placeholder="Ex.: Funções, Calorimetria, Estatística"
+              required
+            />
+            <button type="submit" class="btn primary">+ Adicionar assunto</button>
+          </form>
+        </article>
+      </div>
+
+      <article class="card mt-16">
+        <div class="card-header-inline">
+          <h3>Minhas disciplinas e assuntos</h3>
+          <span id="resumo-grade" class="badge">0 disciplinas • 0 assuntos</span>
+        </div>
+        <div id="lista-disciplinas" class="subjects-grid"></div>
+      </article>
+    </section>
+
+    <!-- REGISTRAR ATIVIDADES -->
+    <section id="view-registrar" class="view">
+      <div class="section-head">
+        <h2>Registrar Atividades</h2>
+        <p>Informe o que foi estudado e registe o desempenho nas questões.</p>
+      </div>
+
+      <article class="card">
+        <form id="form-atividade" class="form-grid">
+          <div class="field">
+            <label for="select-atividade-disciplina">Disciplina</label>
+            <select id="select-atividade-disciplina" required></select>
+          </div>
+
+          <div class="field">
+            <label for="select-atividade-assunto">Assunto</label>
+            <select id="select-atividade-assunto" required></select>
+          </div>
+
+          <div class="field">
+            <label for="input-atividade-topico">Tópico (opcional)</label>
+            <input id="input-atividade-topico" type="text" placeholder="Ex.: Função afim" />
+          </div>
+
+          <div class="field">
+            <label for="input-questoes">Questões respondidas</label>
+            <input id="input-questoes" type="number" min="1" value="10" required />
+          </div>
+
+          <div class="field">
+            <label for="input-acertos">Acertos</label>
+            <input id="input-acertos" type="number" min="0" value="7" required />
+          </div>
+
+          <div class="field">
+            <label for="input-erros">Erros</label>
+            <input id="input-erros" type="number" min="0" value="3" readonly />
+          </div>
+
+          <div class="preview-box full-span">
+            <span>Aproveitamento desta atividade:</span>
+            <strong id="preview-aproveitamento">70% (7 de 10)</strong>
+          </div>
+
+          <div class="form-actions full-span">
+            <button type="submit" class="btn primary">Salvar atividade</button>
+            <button type="button" id="btn-limpar-atividade" class="btn secondary">Limpar campos</button>
+          </div>
+        </form>
+      </article>
+    </section>
+
+    <!-- ACOMPANHAR DESEMPENHO -->
+    <section id="view-acompanhar" class="view">
+      <div class="section-head">
+        <h2>Acompanhe seu Desempenho</h2>
+        <p>Filtre por período, observe os indicadores e identifique conteúdos para reforço.</p>
+      </div>
+
+      <div class="filter-bar">
+        <button type="button" class="filter-btn" data-periodo="30">Últimos 30 dias</button>
+        <button type="button" class="filter-btn" data-periodo="90">Últimos três meses</button>
+        <button type="button" class="filter-btn active" data-periodo="all">Todo período</button>
+      </div>
+
+      <div class="cards-grid">
+        <article class="card metric-card">
+          <span class="metric-label">Aproveitamento geral</span>
+          <strong id="filtro-aproveitamento" class="metric-value">0%</strong>
+        </article>
+        <article class="card metric-card">
+          <span class="metric-label">Questões respondidas</span>
+          <strong id="filtro-questoes" class="metric-value">0</strong>
+        </article>
+      </div>
+
+      <div class="two-col">
+        <article class="card">
+          <h3>Desempenho por disciplina</h3>
+          <div id="filtro-disciplinas" class="bar-list"></div>
+        </article>
+
+        <article class="card">
+          <h3>Conteúdos que precisam de reforço</h3>
+          <ul id="filtro-reforco" class="reinforce-list"></ul>
+        </article>
+      </div>
+
+      <article class="card mt-16">
+        <h3>Histórico de sessões</h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Data</th>
+                <th>Disciplina</th>
+                <th>Assunto / Tópico</th>
+                <th>Acertos / Total</th>
+                <th>Aproveitamento</th>
+              </tr>
+            </thead>
+            <tbody id="historico-corpo"></tbody>
+          </table>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
